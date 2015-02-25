@@ -11,8 +11,8 @@ conn = Bunny.new
 conn.start
 
 ch  = conn.create_channel
-x   = ch.direct("direct_logs")
-q   = ch.queue(ENV["QUEUE_NAME"], :exclusive => false)
+x   = ch.direct("direct_logs", :durable => true)
+q   = ch.queue(ENV["QUEUE_NAME"], :exclusive => false, :durable => true)
 
 ARGV.each do |severity|
   q.bind(x, :routing_key => severity)
