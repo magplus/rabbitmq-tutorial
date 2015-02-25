@@ -12,7 +12,7 @@ conn.start
 
 ch  = conn.create_channel
 x   = ch.direct("direct_logs")
-q   = ch.queue("", :exclusive => true)
+q   = ch.queue(ENV["QUEUE_NAME"], :exclusive => false)
 
 ARGV.each do |severity|
   q.bind(x, :routing_key => severity)
