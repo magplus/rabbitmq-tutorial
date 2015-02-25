@@ -7,7 +7,7 @@ if ARGV.empty?
   abort "Usage: #{$0} [info] [warning] [error]"
 end
 
-conn = Bunny.new
+conn = Bunny.new ENV['RABBIT_URL']
 conn.start
 
 ch  = conn.create_channel
@@ -22,7 +22,7 @@ puts " [*] Waiting for logs. To exit press CTRL+C"
 
 begin
   q.subscribe(:block => true) do |delivery_info, properties, body|
-    puts " [x] #{delivery_info.routing_key}:#{body}"
+    puts " [x] #{delivery_info.routing_key}:#{body} (received at #{Time.now.to_i})"
   end
 rescue Interrupt => _
   ch.close

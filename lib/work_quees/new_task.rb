@@ -2,8 +2,9 @@
 # encoding: utf-8
 
 require "bunny"
+require_relative '../config'
 
-conn = Bunny.new
+conn = Bunny.new p RABBIT_URL
 conn.start
 
 ch   = conn.create_channel
